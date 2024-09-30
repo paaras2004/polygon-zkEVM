@@ -3,13 +3,15 @@ import "@nomicfoundation/hardhat-toolbox";
 // https://github.com/projectsophon/hardhat-circom
 import "hardhat-circom";
 // circuits
-import circuits = require('./circuits.config.json')
+import circuits = require('./circuits.config.json');
+import 'dotenv/config';
 
 // set env var to the root of the project
 process.env.BASE_PATH = __dirname;
 
 // tasks
 import "./tasks/newcircuit.ts"
+
 
 const config: HardhatUserConfig = {
   solidity: {
@@ -21,6 +23,13 @@ const config: HardhatUserConfig = {
         version: "0.6.11",
       }
     ]
+  },
+  networks:{
+    amoy: {
+      url: 'https://rpc-amoy.polygon.technology',
+      accounts: process.env.PRIVATEKEY ? [process.env.PRIVATEKEY] : [],
+      chainId: 80002, // Chain ID for Polygon Amoy testnet
+    }
   },
   circom: {
     // (optional) Base path for input files, defaults to `./circuits/`
